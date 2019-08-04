@@ -238,26 +238,28 @@ def Brands():
     Brands = session.query(Brand).order_by(asc(Brand.name))
     print(Brands)
     # Remove Oauth
-    if 'username' not in login_session:
-        return render_template('publicBrandslist.html',
-                               Brands=Brands)
-    else:
-        return render_template('Brandslist.html', Brands=Brands,
-                               loginname=login_session)
+    # if 'username' not in login_session:
+    #     return render_template('publicBrandslist.html',
+    #                            Brands=Brands)
+    # else:
+    return render_template('Brandslist.html', Brands=Brands,
+                            loginname=login_session)
 
 
 # Create a new Brand
 @app.route('/Brand/new/', methods=['GET', 'POST'])
 def newBrand():
     # Remove Oauth
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
 
     print(login_session)
     if request.method == 'POST':
         # Remove Oauth
-        newBrand = Brand(name=request.form['name'],
-                         user_id=login_session['user_id'])
+        # newBrand = Brand(name=request.form['name'],
+        #                  user_id=login_session['user_id'])
+        newRestaurant = Restaurant(name=request.form['name'],
+            user_id=idUser)
         session.add(newBrand)
         flash('New Brand %s Successfully Created' % newBrand.name)
         session.commit()
@@ -270,8 +272,8 @@ def newBrand():
 @app.route('/Brand/<int:brand_id>/edit/', methods=['GET', 'POST'])
 def editBrand(brand_id):
     # Remove Oauth
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     editedBrand = session.query(Brand)\
         .filter_by(id=brand_id).one()
     # Remove Oauth
@@ -296,8 +298,8 @@ def editBrand(brand_id):
 @app.route('/Brand/<int:brand_id>/delete/', methods=['GET', 'POST'])
 def deleteBrand(brand_id):
     # Remove Oauth
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     BrandToDelete = session.query(Brand)\
         .filter_by(id=brand_id).one()
     # Remove Oauth
@@ -325,24 +327,24 @@ def brandMenu(brand_id):
     creator = getUserInfo(brand.user_id)
     items = session.query(Store).filter_by(brand_id=brand.id)
     # Remove Oauth
-    if 'username' not in login_session\
-            or creator.id != login_session['user_id']:
-        return render_template('publicmenu.html', items=items,
-                               brand=brand, creator=creator)
-    else:
-        return render_template('menu.html',
-                               brand=brand,
-                               items=items,
-                               brand_id=brand_id,
-                               creator=creator)
+    # if 'username' not in login_session\
+    #         or creator.id != login_session['user_id']:
+    #     return render_template('publicmenu.html', items=items,
+    #                            brand=brand, creator=creator)
+    # else:
+    return render_template('menu.html',
+                            brand=brand,
+                            items=items,
+                            brand_id=brand_id,
+                            creator=creator)
 
 
 # Create new Menu Item
 @app.route('/Brand/<int:brand_id>/new/', methods=['GET', 'POST'])
 def newStore(brand_id):
     # Remove Oauth
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
 
     brand = session.query(Brand).filter_by(id=brand_id).one()
     print(brand.name)
@@ -367,8 +369,8 @@ def newStore(brand_id):
            methods=['GET', 'POST'])
 def editStore(brand_id, menu_id):
     # Remove Oauth
-    if 'username' not in login_session:
-        return redirect('/login')
+    # if 'username' not in login_session:
+    #     return redirect('/login')
     brand = session.query(Brand).filter_by(id=brand_id).one()
     editedItem = session.query(Store).filter_by(id=menu_id).one()
 
