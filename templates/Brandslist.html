@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+    </head>
+
+<body style="text-align: center">
+
+    <a href = '{{url_for('gdisconnect') }}'>LOGOUT</a>    
+    <p>{{loginname.username}}</p>    
+    <h1>Brands</h1>
+
+    <a href = '{{url_for('newBrand') }}'>Create a new Brand</a>
+
+
+    {% for i in Brands %}
+
+    <div class="lists">
+
+        <p>{{i.name}}</p>
+
+            <a href='{{url_for('brandMenu', brand_id = i.id) }}'>View Menu</a>            
+            </br>
+
+            <a href = '{{url_for('editBrand', brand_id = i.id) }}'>Edit Brand Name</a>
+
+            </br>
+            <a href = '{{url_for('deleteBrand', brand_id = i.id) }}'>Delete Brand</a>
+
+        </br>
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+
+
+</body>
+
+</html>
